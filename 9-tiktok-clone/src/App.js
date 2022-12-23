@@ -1,29 +1,30 @@
+import { ConnectButton } from '@rainbow-me/rainbowkit'
+
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
 import './App.css'
-import Video from './components/Video'
-import videoMetadata from './metadata/videos.json'
+import Tiktok from './artifacts/contracts/Tiktok.sol/Tiktok.json'
+import TiktokContractInfo from './TiktokContractInfo'
+import TiktokFeed from './TiktokFeed'
+import TiktokProfile from './TiktokProfile'
 
 function App() {
-  const videos = videoMetadata
+  const tiktokContract = {
+    address: '0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9',
+    abi: Tiktok.abi,
+  }
 
   return (
-    <div className='app'>
-      <div className='container'>
-        {videos.map((video, index) => {
-          return (
-            <Video
-              key={index}
-              channel={video.channel}
-              description={video.description}
-              song={video.song}
-              likes={video.likes}
-              shares={video.shares}
-              messages={video.messages}
-              url={video.url}
-            />
-          )
-        })}
-      </div>
-    </div>
+    <Container>
+      <Row>
+        <ConnectButton />
+      </Row>
+      <TiktokContractInfo tiktokContract={tiktokContract} />
+      <br />
+      <TiktokProfile tiktokContract={tiktokContract} />
+      <br />
+      <TiktokFeed tiktokContract={tiktokContract} />
+    </Container>
   )
 }
 

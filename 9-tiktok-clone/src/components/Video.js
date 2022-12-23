@@ -3,7 +3,17 @@ import './Video.css'
 import VideoFooter from './VideoFooter'
 import VideoSidebar from './VideoSidebar'
 
-function Video({ url, song, description, channel, likes, messages, shares }) {
+function Video({
+  tiktokContract,
+  videoIndex,
+  url,
+  song,
+  description,
+  channel,
+  likes,
+  messages,
+  shares,
+}) {
   const [playing, setPlaying] = useState(false)
   const videoRef = useRef(null)
   const onVideoPress = () => {
@@ -23,7 +33,7 @@ function Video({ url, song, description, channel, likes, messages, shares }) {
         className='video__player'
         loop
         autoPlay
-        preLoad='auto'
+        preload='auto'
         muted
         ref={videoRef}
         onClick={onVideoPress}
@@ -31,7 +41,13 @@ function Video({ url, song, description, channel, likes, messages, shares }) {
       ></video>
 
       <VideoFooter channel={channel} description={description} song={song} />
-      <VideoSidebar messages={messages} shares={shares} likes={likes} />
+      <VideoSidebar
+        tiktokContract={tiktokContract}
+        videoIndex={videoIndex}
+        messages={messages}
+        shares={shares}
+        likes={likes}
+      />
     </div>
   )
 }

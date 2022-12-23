@@ -58,6 +58,12 @@ contract Tiktok {
             "Channel already exists for this user"
         );
 
+        // Ensure that the _channelName is not empty
+        require(
+            bytes(_channelName).length != 0,
+            "Channel name must not be empty"
+        );
+
         // Create a new Channel struct and add it to the mapping
         Channel memory newChannel = Channel(msg.sender, _channelName);
         _channels[msg.sender] = newChannel;
@@ -141,38 +147,26 @@ contract Tiktok {
     }
 
     // Function to get a video by its index in the array
-    function getVideo(
-        uint256 _videoIndex
-    )
-        public
-        view
-        returns (
-            string memory,
-            string memory,
-            string memory,
-            uint256,
-            uint256,
-            uint256,
-            address
-        )
-    {
+    function getVideo(uint256 _videoIndex) public view returns (Video memory) {
         // Ensure that the video index is valid
         require(_videoIndex < _videos.length, "Invalid video index");
 
         // Return the video's URL, song used, description, number of likes, number of messages, number of shares and the creator
-        return (
-            _videos[_videoIndex].videoURL,
-            _videos[_videoIndex].songUsed,
-            _videos[_videoIndex].description,
-            _videos[_videoIndex].numLikes,
-            _videos[_videoIndex].numMessages,
-            _videos[_videoIndex].numShares,
-            _videos[_videoIndex].channel.channelAddress
-        );
+        return _videos[_videoIndex];
+    }
+
+    // Function to get all the videos
+    function getAllVideos() public view returns (Video[] memory) {
+        return _videos;
     }
 
     // Function to get the total number of videos
     function totalNumOfVideos() public view returns (uint256) {
         return _videos.length;
+    }
+
+    // Get the balance of the contract
+    function balanceOf() public view returns (uint) {
+        return address(this).balance;
     }
 }
